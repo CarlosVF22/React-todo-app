@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { TodoCounter } from "./TodoCounter";
+import { TodoSearch } from "./TodoSearch";
+import { TodoList } from "./TodoList";
+import { CreateTodoButton } from "./CreateTodoButton";
+import { TodoItem } from "./TodoItem";
 
-function App() {
+
+
+// import './App.css';
+
+const todos = [
+  {text:'cortar cebollas', completed:false },
+  {text:'Tomar el curso de react', completed:false },
+  {text:'llorar con la llorona', completed:false },
+
+  
+];
+
+function App() { //los componentes comienzan con MAYUSCULA
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // React.Fragment es una etiqueta invisible que contiene nuestros componentes
+    //solo se puede enviar una etiqueta por componente
+    <React.Fragment> 
+      <TodoCounter />
+
+      <TodoSearch />
+
+      <TodoList>
+        {todos.map(todo =>(
+          <TodoItem key={todo.text} text={todo.text} />
+        ))}
+      </TodoList>
+
+      <CreateTodoButton />
+      
+    </React.Fragment>
   );
 }
 
