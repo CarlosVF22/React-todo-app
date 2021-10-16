@@ -11,7 +11,7 @@ import { TodoItem } from "./TodoItem";
 
 const todos = [
   {text:'cortar cebollas', completed:false },
-  {text:'Tomar el curso de react', completed:false },
+  {text:'Tomar el curso de react', completed:true },
   {text:'llorar con la llorona', completed:false },
 
   
@@ -28,7 +28,10 @@ function App() { //los componentes comienzan con MAYUSCULA
 
       <TodoList>
         {todos.map(todo =>(
-          <TodoItem key={todo.text} text={todo.text} />
+          <TodoItem
+            key={todo.text} 
+            text={todo.text} 
+            completed={todo.completed}/>
         ))}
       </TodoList>
 

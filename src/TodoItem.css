@@ -1,0 +1,32 @@
+.TodoItem{
+    display: flex;
+    margin: 10px;
+    justify-content: space-between;
+    position: relative;
+    background-color: darkblue;
+}
+.Icon{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.Icon-check{
+    transform: rotate(180deg);
+    
+}
+.Icon-check-active{
+    color: chartreuse;
+    font-weight: 600;
+}
+
+.Icon-delete:hover{
+    color:darkred;
+    font-weight:bold ;
+}
+.TodoItem-p{
+    font-weight: 400;
+}
+.TodoItem-p-completed{
+    text-decoration: line-through;
+}
