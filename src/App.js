@@ -34,6 +34,23 @@ function App() { //los componentes comienzan con MAYUSCULA
     const completedTodos = todos.filter(todo => !!todo.completed).length;
     const totalTodos = todos.length;
 
+    //Creando el array que contendra los Todos buscados
+    let searchedTodos =[];
+
+    //en caso de que searchValue.length(cantidad de letras escritas) NO sea mayoe o igual a 1
+    if(!searchValue.length >=1){
+        searchedTodos = todos;
+    } else {
+        searchedTodos = todos.filter(todo =>{
+          // volvemos el valor de texto de todo a minuscula y lo guardamos
+          const todoText = todo.text.toLocaleLowerCase();
+          //volvemos el valor buscado que esta en searchValue en minuscula y lo guardamos
+          const searchText = searchValue.toLocaleLowerCase();
+          // retornar falso o verdadero si searchText(letras buscadas) esta includo en el texto del todo
+          return todoText.includes(searchText);
+      });
+    }
+
   return (
     // React.Fragment es una etiqueta invisible que contiene nuestros componentes
     //solo se puede enviar una etiqueta por componente
@@ -50,7 +67,8 @@ function App() { //los componentes comienzan con MAYUSCULA
       />
 
       <TodoList>
-        {todos.map(todo =>(
+        {/* recorremos el array que ya fue filtrado de TODOs */}
+        {searchedTodos.map(todo =>(
           <TodoItem
             key={todo.text} 
             text={todo.text} 
@@ -67,3 +85,5 @@ function App() { //los componentes comienzan con MAYUSCULA
 export default App;
 //filtrar la cantidad de TODOs dependiendo en searchValue la cantidad de TODO que aparecen 
 //palabras semejantes
+
+// si searchValue es igual a alguna de las letras del todo, mostrarlo
