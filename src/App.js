@@ -48,7 +48,34 @@ function App() { //los componentes comienzan con MAYUSCULA
           const searchText = searchValue.toLocaleLowerCase();
           // retornar falso o verdadero si searchText(letras buscadas) esta includo en el texto del todo
           return todoText.includes(searchText);
+          
       });
+    }
+
+    //complete TODOs
+    const completeTodo = (text) =>{
+      //creamos un clon de la lista TODOs
+      const newTodos = [...todos]
+      //buscamos el index del TODOs que se quiere completar
+      const todoIndex = todos.findIndex(todo => todo.text ===text);
+      if(newTodos[todoIndex].completed ===true){
+        //cambiamos su propiedad completed
+        newTodos[todoIndex].completed = false;
+        //ACTUALIZAMOS EL ESTADO
+        // RE-RENDER
+        setTodos(newTodos)
+      }else{  
+        newTodos[todoIndex].completed = true;
+        setTodos(newTodos)
+      }
+    }
+
+    //elimiando TODOs
+    const deleteTodo =(text) =>{
+      const newTodos = [...todos]
+      const todoIndex = todos.findIndex(todo => todo.text ===text);
+      newTodos.splice(todoIndex,1);
+      setTodos(newTodos)
     }
 
   return (
@@ -72,7 +99,10 @@ function App() { //los componentes comienzan con MAYUSCULA
           <TodoItem
             key={todo.text} 
             text={todo.text} 
-            completed={todo.completed}/>
+            completed={todo.completed}
+            onComplete ={() => completeTodo(todo.text)}
+            onDelete ={() => deleteTodo(todo.text)}
+            />
         ))}
       </TodoList>
 
