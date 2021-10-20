@@ -5,19 +5,40 @@ import { AppUI } from "./appUI";
 
 // import './App.css';
 
-const defaultTodos = [
-  {text:'cortar cebollas', completed:false },
-  {text:'Tomar el curso de react', completed:true },
-  {text:'llorar con la llorona', completed:true },
-];
+// const defaultTodos = [
+//   {text:'cortar cebollas', completed:false },
+//   {text:'Tomar el curso de react', completed:true },
+//   {text:'llorar con la llorona', completed:true },
+// ];
 
 function App() { //los componentes comienzan con MAYUSCULA
+
+  // LOCAL STORAGE, persistencia de datos
+  // por default comenzamos el local storage con el 'TODOS_V1'
+  const localStorageTodos = localStorage.getItem('TODOS_V1');
+
+  //parsedTodos sera enviado a estado de los todos de react
+  let parsedTodos;
+
+  //verificamos si los usuarios son nuevos(que no haya informacion en localStorage)
+
+    // si localStorageTodos es null, 0, und, etc
+  if(!localStorageTodos){
+    //creamos un por defecto de la lista de TODOS.
+    // le asignamos que por defecto va a ser un array vacio
+    //le tenemos que enviar un string, por que lo convertimos al array vacion con JSON.stringify
+    //local storage solo acepta strings
+    localStorage.setItem('TODOS_V1',JSON.stringify([]));
+    parsedTodos = [];
+  }else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
 
     //agregando estado a nuestro componente
     //React.useState nos devuelve un array de 2 posiciones [state, setState()]
 
     //agregando state a los TODOs
-    const [todos,setTodos] = React.useState(defaultTodos);
+    const [todos,setTodos] = React.useState(parsedTodos);
 
     //cuando llamemos a la funcion setState re Renderizamos nuestro componente con el nuevo estado
     //con setSearchValue actualizamos el valor del estado
@@ -48,6 +69,15 @@ function App() { //los componentes comienzan con MAYUSCULA
       });
     }
 
+
+    //FUNCION PUENTE DE COMPLETE Y DELETE TODOS HACIA EL LOCAL STORAGE Y EL ESTADO
+    const saveTodos = (newTodos) =>{
+      //convertir los TODOs en strings
+      const stringifiedTodos = JSON.stringify(newTodos);
+      localStorage.setItem('TODOS_V1',stringifiedTodos);
+      setTodos(newTodos);
+    };
+
     //complete TODOs
     const completeTodo = (text) =>{
       //creamos un clon de la lista TODOs
@@ -59,10 +89,11 @@ function App() { //los componentes comienzan con MAYUSCULA
         newTodos[todoIndex].completed = false;
         //ACTUALIZAMOS EL ESTADO
         // RE-RENDER
-        setTodos(newTodos)
+        saveTodos(newTodos)
       }else{  
         newTodos[todoIndex].completed = true;
-        setTodos(newTodos)
+        //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
+        saveTodos(newTodos)
       }
     }
 
@@ -71,7 +102,8 @@ function App() { //los componentes comienzan con MAYUSCULA
       const newTodos = [...todos]
       const todoIndex = todos.findIndex(todo => todo.text ===text);
       newTodos.splice(todoIndex,1);
-      setTodos(newTodos)
+      //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
+      saveTodos(newTodos)
     }
 
   return (
