@@ -11,99 +11,79 @@ import { AppUI } from "./appUI";
 //   {text:'llorar con la llorona', completed:true },
 // ];
 
-function App() { //los componentes comienzan con MAYUSCULA
+//CUSTOM REACT HOOKE, LOCAL STORAGE Y MANEJO DEL ESTADO
+function useLocalStorage(itemName, initialValue){ //Creando un custom react hook, comienza con use
 
-  // LOCAL STORAGE, persistencia de datos
-  // por default comenzamos el local storage con el 'TODOS_V1'
-  const localStorageTodos = localStorage.getItem('TODOS_V1');
-
-  //parsedTodos sera enviado a estado de los todos de react
-  let parsedTodos;
-
-  //verificamos si los usuarios son nuevos(que no haya informacion en localStorage)
-
-    // si localStorageTodos es null, 0, und, etc
-  if(!localStorageTodos){
-    //creamos un por defecto de la lista de TODOS.
-    // le asignamos que por defecto va a ser un array vacio
-    //le tenemos que enviar un string, por que lo convertimos al array vacion con JSON.stringify
-    //local storage solo acepta strings
-    localStorage.setItem('TODOS_V1',JSON.stringify([]));
-    parsedTodos = [];
+  const localStorageItem = localStorage.getItem(itemName); //default 'itemName'
+  let parsedItem; //parsedTodos sera enviado a estado de los todos de react
+  if(!localStorageItem){ //verificamos si los usuarios son nuevos(que no haya informacion en localStorage)-si localStorageTodos es null, 0, und, etc
+    localStorage.setItem(itemName,JSON.stringify(initialValue));//le tenemos que enviar un string, por que lo convertimos al array vacion con JSON.stringify-    //local storage solo acepta strings
+    parsedItem = initialValue;
   }else {
-    parsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageItem);
   }
 
-    //agregando estado a nuestro componente
-    //React.useState nos devuelve un array de 2 posiciones [state, setState()]
+    //llamando al estado
+  const [item,setItem] = React.useState(parsedItem);//agregando estado al componente -setTodos funcion para cambiar estado
 
-    //agregando state a los TODOs
-    const [todos,setTodos] = React.useState(parsedTodos);
+  //FUNCION PUENTE DE COMPLETE Y DELETE TODOS HACIA EL LOCAL STORAGE Y EL ESTADO
+  const saveItem = (newItem) =>{
+    const stringifiedItem = JSON.stringify(newItem);   //convertir los TODOs en strings
+    localStorage.setItem(itemName,stringifiedItem);
+    setItem(newItem);
+  };
 
+  return [
+    item,
+    saveItem,
+  ];
+}
+
+  //MANEJO DEL ESTADO----------------
     //cuando llamemos a la funcion setState re Renderizamos nuestro componente con el nuevo estado
     //con setSearchValue actualizamos el valor del estado
-    const [searchValue,setSearchValue] = React.useState(''); //creamos el estado y enviamos el estado inicial que guardamos en la
-    //variable searchValue
+    //EL ESTADO NOS DEVUELVE UN ARRAY [state,setState]
+//los componentes comienzan con MAYUSCULA
+function App() {
+  
+  const [todos,saveTodos] = useLocalStorage('TODOS_V1',[]);
+  const [searchValue,setSearchValue] = React.useState('');
 
-    //contando TODOs totales y TODOs completed
-    //utilizamos ! para verificar que la variable es falsa y doble !! es para verificar si es verdadera
-    //cuales todos tienen la propiedad completed como true
-    const completedTodos = todos.filter(todo => !!todo.completed).length;
-    const totalTodos = todos.length;
+    //contando TODOs totales y TODOs completed 
+    const completedTodos = todos.filter(todo => !!todo.completed).length;     //utilizamos ! para verificar que la variable es falsa y doble !! es para verificar si es verdadera
+    const totalTodos = todos.length;   //cuales todos tienen la propiedad completed como true
+    let searchedTodos =[];//Creando el array que contendra los Todos buscados
 
-    //Creando el array que contendra los Todos buscados
-    let searchedTodos =[];
-
-    //en caso de que searchValue.length(cantidad de letras escritas) NO sea mayoe o igual a 1
+    //en caso de que searchValue.length(cantidad de letras escritas) NO sea mayor o igual a 1
     if(!searchValue.length >=1){
         searchedTodos = todos;
     } else {
         searchedTodos = todos.filter(todo =>{
-          // volvemos el valor de texto de todo a minuscula y lo guardamos
-          const todoText = todo.text.toLocaleLowerCase();
-          //volvemos el valor buscado que esta en searchValue en minuscula y lo guardamos
-          const searchText = searchValue.toLocaleLowerCase();
-          // retornar falso o verdadero si searchText(letras buscadas) esta includo en el texto del todo
-          return todoText.includes(searchText);
-          
+          const todoText = todo.text.toLocaleLowerCase();// volvemos el valor de texto de todo a minuscula y lo guardamos
+          const searchText = searchValue.toLocaleLowerCase();//volvemos el valor buscado que esta en searchValue en minuscula y lo guardamos
+          return todoText.includes(searchText);// retornar falso o verdadero si searchText(letras buscadas) esta includo en el texto del todo
       });
     }
 
-
-    //FUNCION PUENTE DE COMPLETE Y DELETE TODOS HACIA EL LOCAL STORAGE Y EL ESTADO
-    const saveTodos = (newTodos) =>{
-      //convertir los TODOs en strings
-      const stringifiedTodos = JSON.stringify(newTodos);
-      localStorage.setItem('TODOS_V1',stringifiedTodos);
-      setTodos(newTodos);
-    };
-
     //complete TODOs
     const completeTodo = (text) =>{
-      //creamos un clon de la lista TODOs
-      const newTodos = [...todos]
-      //buscamos el index del TODOs que se quiere completar
-      const todoIndex = todos.findIndex(todo => todo.text ===text);
+      const newTodos = [...todos] //creamos un clon de la lista TODOs
+      const todoIndex = todos.findIndex(todo => todo.text ===text); //buscamos el index del TODOs que se quiere completar
       if(newTodos[todoIndex].completed ===true){
-        //cambiamos su propiedad completed
-        newTodos[todoIndex].completed = false;
-        //ACTUALIZAMOS EL ESTADO
-        // RE-RENDER
-        saveTodos(newTodos)
+        newTodos[todoIndex].completed = false; //cambiamos su propiedad completed
+        saveTodos(newTodos)//llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
       }else{  
         newTodos[todoIndex].completed = true;
-        //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
-        saveTodos(newTodos)
+        saveTodos(newTodos) //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
       }
     }
 
     //elimiando TODOs
     const deleteTodo =(text) =>{
-      const newTodos = [...todos]
+      const newTodos = [...todos]//creamos un clon de la lista TODOs
       const todoIndex = todos.findIndex(todo => todo.text ===text);
-      newTodos.splice(todoIndex,1);
-      //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
-      saveTodos(newTodos)
+      newTodos.splice(todoIndex,1);//eliminamos TODOs que este recibiendo el evento
+      saveTodos(newTodos) //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
     }
 
   return (
@@ -120,7 +100,3 @@ function App() { //los componentes comienzan con MAYUSCULA
 }
 
 export default App;
-//filtrar la cantidad de TODOs dependiendo en searchValue la cantidad de TODO que aparecen 
-//palabras semejantes
-
-// si searchValue es igual a alguna de las letras del todo, mostrarlo
