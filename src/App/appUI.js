@@ -6,6 +6,8 @@ import { CreateTodoButton } from "../CreateTodoButton";
 import { TodoItem } from "../TodoItem";
 
 function AppUI({
+    loading,
+    error,
     totalTodos,
     completedTodos, 
     searchValue,
@@ -30,6 +32,13 @@ function AppUI({
     />
 
     <TodoList>
+        {/* useeffect - Estados de carga */ }
+        {error && <p>Hubo un error</p> }
+        {loading && <p>Estamos cargando </p> }
+        {/* si no esta cargando Y searchedTodos no tiene informacion ENTONCES(&&) crea tu primer todo */}
+        {(!loading && !searchedTodos.length) && <p>Crea tu primer TODOs</p>} 
+        
+
       {/* recorremos el array que ya fue filtrado de TODOs */}
         {searchedTodos.map(todo =>(
         <TodoItem
