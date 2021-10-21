@@ -8,6 +8,16 @@ import { TodoItem } from "../TodoItem";
 
 function AppUI({
 }){
+
+    const {
+        error,
+        loading,
+        searchedTodos,
+        completeTodo,
+        deleteTodo,
+    } = React.useContext (TodoContext)
+
+
     return(
         // React.Fragment es una etiqueta invisible que contiene nuestros componentes
     //solo se puede enviar una etiqueta por componente
@@ -16,13 +26,6 @@ function AppUI({
 
     <TodoSearch/>
 
-    <TodoContext.Consumer>
-        {({error,
-        loading,
-        searchedTodos,
-        completeTodo,
-        deleteTodo,
-    }) =>(
             <TodoList>
             {/* useeffect - Estados de carga */ }
             {error && <p>Hubo un error</p> }
@@ -41,8 +44,7 @@ function AppUI({
             />
             ))}
             </TodoList>
-        )}
-    </TodoContext.Consumer>
+
 
     <CreateTodoButton />
     
