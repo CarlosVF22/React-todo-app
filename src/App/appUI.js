@@ -5,6 +5,7 @@ import { TodoSearch } from "../TodoSearch";
 import { TodoList } from "../TodoList";
 import { CreateTodoButton } from "../CreateTodoButton";
 import { TodoItem } from "../TodoItem";
+import{ Modal } from "../Modal";
 
 function AppUI({
 }){
@@ -15,18 +16,19 @@ function AppUI({
         searchedTodos,
         completeTodo,
         deleteTodo,
+        openModal,
+        setOpenModal,
     } = React.useContext (TodoContext)
-
 
     return(
         // React.Fragment es una etiqueta invisible que contiene nuestros componentes
     //solo se puede enviar una etiqueta por componente
     <React.Fragment> 
-    <TodoCounter/>
+        <TodoCounter/>
 
-    <TodoSearch/>
+        <TodoSearch/>
 
-            <TodoList>
+        <TodoList>
             {/* useeffect - Estados de carga */ }
             {error && <p>Hubo un error</p> }
             {loading && <p>Estamos cargando </p> }
@@ -43,10 +45,18 @@ function AppUI({
                 onDelete ={() => deleteTodo(todo.text)}
             />
             ))}
-            </TodoList>
+        </TodoList>
 
+        {!!openModal && (
+            <Modal>
+                {/* <p>{searchedTodos[0]?.text}</p> */}
+                <p>Este es el modal</p>
+            </Modal>
+        )}
 
-    <CreateTodoButton />
+        <CreateTodoButton 
+            setOpenModal ={setOpenModal}
+        />
     
     </React.Fragment>
     );
