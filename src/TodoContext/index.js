@@ -58,6 +58,16 @@ function TodoProvider(props){
         saveTodos(newTodos) //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
     }
 
+    //Añadiendo TODOs
+    const addTodo =(text) =>{
+        const newTodos = [...todos]//creamos un clon de la lista TODOs
+        newTodos.push({
+            completed: false,
+            text,
+        });
+        saveTodos(newTodos) //llamamos a la funcion que va a guardar la informacion en localStorage y hacer el cambio en el estado
+    }
+
     return(
         // propiedades que queramos compartir con nuestro contexto tiene que estar en value
         <TodoContext.Provider value={{
@@ -70,6 +80,7 @@ function TodoProvider(props){
             searchedTodos,
             completeTodo,
             deleteTodo,
+            addTodo,
             openModal,
             setOpenModal,
         }}>

@@ -1,5 +1,8 @@
 .CreateTodoButton{
-    float: right;
+    /* float: right; */
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
     border-radius: 100%;
     color: black;
     background-color: rgb(251, 255, 0);
@@ -10,4 +13,6 @@
     font-size: 2rem;
     cursor: pointer;
     border-color: rgb(251, 255, 0);
+    
+    z-index: 1;
 }

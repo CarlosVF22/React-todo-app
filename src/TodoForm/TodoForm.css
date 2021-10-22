@@ -1,0 +1,32 @@
+form{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 300px;
+    background: rgb(38, 38, 139);
+    -webkit-box-shadow: -48px 22px 28px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -48px 22px 28px 0px rgba(0,0,0,0.75);
+    box-shadow: -48px 22px 28px 0px rgba(0,0,0,0.75);
+    padding: 5%;
+}
+
+.TodoFormLabel{
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 5%;
+}
+
+.TodoFormTextarea{
+
+}
+
+.TodoFormButtonContainer{
+    padding-top:5%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.TodoButtonCancel,.TodoButtonAdd{
+    border-radius: 5px;
+    cursor: pointer;
+}
