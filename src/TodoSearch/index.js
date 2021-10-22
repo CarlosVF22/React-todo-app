@@ -16,7 +16,7 @@ function TodoSearch (){
     return (
         <input 
         className="TodoSearch" 
-        placeholder="Cebolla"
+        placeholder="Filtra tus TODOs"
         //conectando el compoente con el valor del estado
         value={searchValue}
         //al realizar un cambio ejecutar la funcion onSearchValueChange
