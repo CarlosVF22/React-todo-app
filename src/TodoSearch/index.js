@@ -1,13 +1,10 @@
 import React from "react";
-import { TodoContext } from "../TodoContext";
 import './TodoSearch.css';
 
 
 //Actualizar estado por medio de props
 //el componente que llame al componente TodoSEarch debe enviar 2 props ({searchValue,setSearchValue})
-function TodoSearch (){
-    const {searchValue,setSearchValue} = React.useContext(TodoContext);
-
+function TodoSearch ({searchValue,setSearchValue}){
     //cada vez que el usuario realice un cambio llamamos a la funcion setSearchValue
     const onSearchValueChange = (event) => {
         console.log(event.target.value);

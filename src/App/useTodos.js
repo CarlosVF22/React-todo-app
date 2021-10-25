@@ -7,9 +7,7 @@ import { useLocalStorage } from "./useLocalStorage";
     //EL ESTADO NOS DEVUELVE UN ARRAY [state,setState]
     //los componentes comienzan con MAYUSCULA
 
-const TodoContext = React.createContext(); //Crear contexto
-
-function TodoProvider(props){
+function useTodos(){
     const {
         item:todos,
         saveItem:saveTodos,
@@ -70,7 +68,7 @@ function TodoProvider(props){
 
     return(
         // propiedades que queramos compartir con nuestro contexto tiene que estar en value
-        <TodoContext.Provider value={{
+        {
             loading,
             error,
             totalTodos,
@@ -83,10 +81,8 @@ function TodoProvider(props){
             addTodo,
             openModal,
             setOpenModal,
-        }}>
-            {props.children}
-        </TodoContext.Provider>
+        }
     );
 }
 
-export {TodoContext,TodoProvider};
+export {useTodos};
