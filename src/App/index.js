@@ -45,20 +45,41 @@ function App() {
             error={error}
             loading={loading}
             searchedTodos={searchedTodos}
+            totalTodos = {totalTodos}
+            searchText = {searchValue}
             // Utilizando renders props
             onError={() => <p>Hubo un error</p>}
             onLoading={() =><p>Estamos cargando </p>}
             onEmptyTodos={()=><p>Crea tu primer TODOs</p>}
-            render={todo => (
+            onEmptySearchResults={
+                (searchText)=><p>No hay resultados para {searchText}</p>
+            }
+
+            // Esto es una render props
+            // render={todo => (
+            //     <TodoItem
+            //     key={todo.text} 
+            //     text={todo.text} 
+            //     completed={todo.completed}
+            //     onComplete ={() => completeTodo(todo.text)}
+            //     onDelete ={() => deleteTodo(todo.text)}
+            // />
+            // )}
+        >
+
+            {/* Esto es una renden function */}
+            {todo => ( 
                 <TodoItem
-                key={todo.text} 
-                text={todo.text} 
-                completed={todo.completed}
-                onComplete ={() => completeTodo(todo.text)}
-                onDelete ={() => deleteTodo(todo.text)}
-            />
+                    key={todo.text} 
+                    text={todo.text} 
+                    completed={todo.completed}
+                    onComplete ={() => completeTodo(todo.text)}
+                    onDelete ={() => deleteTodo(todo.text)}
+                />
             )}
-        />
+
+            
+        </TodoList>
         {!!openModal && (
             <Modal>
                 <TodoForm
