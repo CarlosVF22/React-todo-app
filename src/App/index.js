@@ -29,7 +29,7 @@ function App() {
     // React.Fragment es una etiqueta invisible que contiene nuestros componentes
     //solo se puede enviar una etiqueta por componente
     <React.Fragment> 
-        <TodoHeader>
+        <TodoHeader loading = {loading}>
             <TodoCounter
                 totalTodos={totalTodos}
                 completedTodos ={completedTodos}
@@ -78,7 +78,7 @@ function App() {
                 />
             )}
 
-            
+
         </TodoList>
         {!!openModal && (
             <Modal>

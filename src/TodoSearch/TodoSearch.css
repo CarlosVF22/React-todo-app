@@ -11,3 +11,7 @@
     height: 25px;
     font-weight: 600;
 }
+
+.TodoSearch:disabled{
+    opacity: 25%;
+}

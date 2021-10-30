@@ -4,3 +4,7 @@
     color: rgb(170, 245, 96);
     text-shadow: -10px 1px 10px chartreuse;
 }
+
+.TodoCounter--loading {
+    opacity: 25%;
+}
