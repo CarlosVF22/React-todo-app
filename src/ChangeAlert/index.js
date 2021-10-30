@@ -6,11 +6,11 @@ function ChangeAlert({show,toggleShow}) {
     if (show){
         return (
             <div className="sincronizeContainer">
-                <p>Hubo cambios, vuelve a cargar</p>
+                <p>Parece que hubo cambios en otra pestaña o ventada del navegador ¿quieres volver a cargar la información?</p>
                 <button
                     onClick={() => toggleShow(false)}
                 >
-                    Volver a cargar la información
+                    SI
                 </button>
             </div>
         ); 
