@@ -8,6 +8,7 @@ import { TodoItem } from "../TodoItem";
 import{ Modal } from "../Modal";
 import {TodoHeader} from "../TodoHeader";
 import {TodoForm} from "../TodoForm";
+import {ChangeAlertWithStorageListener} from "../ChangeAlert";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         searchValue,
         setSearchValue,
         addTodo,
+        sincronizeTodos,
     } = useTodos();
     return(
     // React.Fragment es una etiqueta invisible que contiene nuestros componentes
@@ -90,6 +92,9 @@ function App() {
         )}
         <CreateTodoButton 
             setOpenModal ={setOpenModal}
+        />
+        <ChangeAlertWithStorageListener
+            sincronize = {sincronizeTodos}
         />
     </React.Fragment>
     );
